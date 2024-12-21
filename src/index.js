@@ -1,41 +1,45 @@
-import { renderHome } from "./Home";
-import { renderMenu } from "./Menu";
-import { renderAbout } from "./About";
-import "./navStyling.css"
+import "./styles.css"
 
-console.log("Hellow")
+const submit = document.querySelector("#submit");
+const inputBox = document.querySelector("#inputBox")
 
-const content = document.querySelector("#content")
-renderHome();
+const temp = document.querySelector("#temp")
+const minT = document.querySelector("#minT")
+const maxT = document.querySelector("#maxT")
+const address = document.querySelector("#address")
 
+submit.addEventListener('click',(event)=>{
+    event.preventDefault();
+    let locationName = inputBox.value
+    console.log(locationName);
 
-const about = document.querySelector("#about");
-const home = document.querySelector("#home");
-const menu = document.querySelector("#menu");
-
-let contentStuff = renderHome();
-    content.innerHTML = " ";
-    content.appendChild(contentStuff);
-
-menu.addEventListener('click',()=>{
-    let contentStuff = renderMenu()
-    content.innerHTML = " ";
-    content.appendChild(contentStuff)
+    getWeatherDeatails(locationName)
 })
 
-about.addEventListener('click',()=>{
-    let contentStuff = renderAbout();
-    content.innerHTML = " ";
-    content.appendChild(contentStuff);
+async function getWeatherDeatails(name){
+    const rawData = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${name}?unitGroup=metric&include=current%2Cdays&key=A29PP798V6S8FFBRLP8CT6W8X&contentType=json`,{mode:"cors"});
 
-})
+    const jsonData = await rawData.json();
+    
+    let addressTxt = jsonData.resolvedAddress;
+    let currentTemp = jsonData.currentConditions.temp;
 
-home.addEventListener('click',()=>{
-    let contentStuff = renderHome();
-    content.innerHTML = " ";
-    content.appendChild(contentStuff);
-
-})
+    let iconName = `${jsonData.currentConditions.icon}.svg`
 
 
 
+
+
+
+    console.log(addressTxt);
+    console.log(currentTemp);
+
+    temp.textContent = currentTemp;
+    address.textContent = addressTxt
+    minT.textContent = `Minimum : ${jsonData.days[0].tempmin}°C`
+    maxT.textContent = `Maximum : ${jsonData.days[0].tempmax}°C`
+    
+
+    
+
+}

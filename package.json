@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "pages": "git checkout gh-pages && git merge main --no-edit && git add dist -f && git commit -m \"Deployment commit (script)\" && git subtree push --prefix dist origin gh-pages && git checkout main"
+    "pages": "git checkout gh-pages && git merge main --no-edit && git add dist -f && git commit -m \"Deployment commit (script)\" && git subtree push --prefix dist origin gh-pages && git checkout main",
+    "live": "npx webpack serve"
 
   },
   "keywords": [],
