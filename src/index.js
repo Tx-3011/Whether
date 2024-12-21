@@ -7,11 +7,16 @@ const temp = document.querySelector("#temp")
 const minT = document.querySelector("#minT")
 const maxT = document.querySelector("#maxT")
 const address = document.querySelector("#address")
+const icon = document.querySelector("#icon");
+
+const icons = require.context('./assets', false, /\.svg$/);
+
 
 submit.addEventListener('click',(event)=>{
     event.preventDefault();
     let locationName = inputBox.value
     console.log(locationName);
+    locationName = locationName.replaceAll(' ','+')
 
     getWeatherDeatails(locationName)
 })
@@ -24,11 +29,10 @@ async function getWeatherDeatails(name){
     let addressTxt = jsonData.resolvedAddress;
     let currentTemp = jsonData.currentConditions.temp;
 
-    let iconName = `${jsonData.currentConditions.icon}.svg`
-
-
-
-
+    let iconName = `./${jsonData.currentConditions.icon}.svg`
+    console.log(iconName);
+    let iconPath = icons(iconName)
+    icon.src = iconPath
 
 
     console.log(addressTxt);
